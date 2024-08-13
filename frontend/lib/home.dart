@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/login.dart';
+import 'package:frontend/products.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key, required this.isDarkTheme, required this.title});
@@ -22,6 +23,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _product() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProductListPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,6 +40,18 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.red[600],
           title: Text(widget.title),
           actions: [
+            TextButton(
+                onPressed: _product,
+                child: const Text(
+                  "Products",
+                  style: TextStyle(color: Colors.white),
+                )),
+            // TextButton( //LOGOUT DIPINDAH KE POP UP MENU BUTTON
+            //     onPressed: _logout,
+            //     child: const Text(
+            //       "Logout",
+            //       style: TextStyle(color: Colors.white),
+            //     )),
             PopupMenuButton(
                 itemBuilder: (context) => [
                       PopupMenuItem(
