@@ -36,77 +36,78 @@ class _HomePageState extends State<HomePage> {
       debugShowCheckedModeBanner: false,
       theme: widget.isDarkTheme ? ThemeData.dark() : ThemeData.light(),
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red[600],
-          title: Text(widget.title),
-          actions: [
-            TextButton(
-                onPressed: _product,
-                child: const Text(
-                  "Products",
-                  style: TextStyle(color: Colors.white),
-                )),
-            // TextButton( //LOGOUT DIPINDAH KE POP UP MENU BUTTON
-            //     onPressed: _logout,
-            //     child: const Text(
-            //       "Logout",
-            //       style: TextStyle(color: Colors.white),
-            //     )),
-            PopupMenuButton(
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: const Row(
-                          children: [
-                            Icon(Icons.star),
-                            Text('Change Theme'),
-                          ],
+          appBar: AppBar(
+            backgroundColor: Colors.red[600],
+            title: Text(widget.title),
+            actions: [
+              TextButton(
+                  onPressed: _product,
+                  child: const Text(
+                    "Products",
+                    style: TextStyle(color: Colors.white),
+                  )),
+              // TextButton( //LOGOUT DIPINDAH KE POP UP MENU BUTTON
+              //     onPressed: _logout,
+              //     child: const Text(
+              //       "Logout",
+              //       style: TextStyle(color: Colors.white),
+              //     )),
+              PopupMenuButton(
+                  itemBuilder: (context) => [
+                        PopupMenuItem(
+                          child: const Row(
+                            children: [
+                              Icon(Icons.star),
+                              Text('Change Theme'),
+                            ],
+                          ),
+                          onTap: () {
+                            setState(() {
+                              widget.isDarkTheme = !widget.isDarkTheme;
+                            });
+                          },
                         ),
-                        onTap: () {
-                          setState(() {
-                            widget.isDarkTheme = !widget.isDarkTheme;
-                          });
-                        },
-                      ),
-                      PopupMenuItem(
-                        onTap: _logout,
-                        child: const Row(
-                          children: [
-                            Icon(Icons.logout),
-                            Text('Log Out'),
-                          ],
-                        ),
-                      )
-                    ])
-          ],
-        ),
-        body: const Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            ImageCarousel(),
-            SizedBox(height: 20),
-            Text(
-              'History of Papa’s Restoranto',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                        PopupMenuItem(
+                          onTap: _logout,
+                          child: const Row(
+                            children: [
+                              Icon(Icons.logout),
+                              Text('Log Out'),
+                            ],
+                          ),
+                        )
+                      ])
+            ],
+          ),
+          body: const SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ImageCarousel(),
+                SizedBox(height: 20),
+                Text(
+                  'History of Papa’s Restoranto',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Founding and Early Years',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'Papa\'s Restoranto was founded in 1985 by ZK, a visionary entrepreneur with a deep appreciation for authentic Italian cuisine. ZK, inspired by his travels through Italy and his passion for cooking, sought to bring a taste of Italy to his new community.',
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'He opened Papa\'s Restoranto in a charming, historic building in Wakanda\'s vibrant neighborhood. With a commitment to quality and authenticity, the restaurant quickly gained a reputation for its delectable Italian dishes, warm atmosphere, and exceptional service.',
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 20),
+              ],
             ),
-            SizedBox(height: 20),
-            Text(
-              'Founding and Early Years',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'Papa\'s Restoranto was founded in 1985 by ZK, a visionary entrepreneur with a deep appreciation for authentic Italian cuisine. Zachary, inspired by his travels through Italy and his passion for cooking, sought to bring a taste of Italy to his new community.',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'He opened Papa\'s Restoranto in a charming, historic building in Wakanda\'s vibrant neighborhood. With a commitment to quality and authenticity, the restaurant quickly gained a reputation for its delectable Italian dishes, warm atmosphere, and exceptional service.',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }

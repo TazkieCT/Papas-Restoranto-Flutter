@@ -35,4 +35,25 @@ router.post('/add-food', (req, res) => {
     })
 })
 
+router.post('/update-food', (req, res) => {
+    const data = req.body;
+    const query = `UPDATE product SET price = ${data.price} WHERE id  = ${data.id}`
+
+    con.query(query, (err, results) => {
+        if(err) throw err;
+        res.send(results);
+    })
+})
+
+
+router.delete('/delete-food', (req, res) => {
+    const data = req.body
+    const query = `DELETE FROM product WHERE id = ${data.id}`
+
+    con.query(query, (err, results) => {
+        if(err) throw err;
+        res.send(results);
+    })
+})
+
 module.exports = router;
