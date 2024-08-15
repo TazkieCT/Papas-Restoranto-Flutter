@@ -30,7 +30,9 @@ class Product {
 }
 
 class ProductListPage extends StatefulWidget {
-  const ProductListPage({super.key});
+  const ProductListPage({super.key, required this.user});
+
+  final String user;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -87,7 +89,10 @@ class _ProductListPageState extends State<ProductListPage> {
   void openAddProduct(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const AddProductPage()),
+      MaterialPageRoute(
+          builder: (context) => AddProductPage(
+                user: widget.user,
+              )),
     );
   }
 
@@ -95,7 +100,10 @@ class _ProductListPageState extends State<ProductListPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => ProductDetailPage(id: product.id)),
+          builder: (context) => ProductDetailPage(
+                id: product.id,
+                user: widget.user,
+              )),
     );
   }
 

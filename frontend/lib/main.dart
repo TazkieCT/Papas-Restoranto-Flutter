@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/home.dart';
 import 'package:frontend/login.dart';
 
 void main() {
@@ -23,10 +22,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.red[600],
         ),
       ),
-      home: HomePage(
-        isDarkTheme: false,
-        title: 'user123',
-      ),
+      home: const LoginPage(),
     );
   }
 }

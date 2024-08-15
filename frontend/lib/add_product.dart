@@ -5,7 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class AddProductPage extends StatefulWidget {
-  const AddProductPage({Key? key}) : super(key: key);
+  const AddProductPage({Key? key, required this.user}) : super(key: key);
+
+  final String user;
 
   @override
   State<AddProductPage> createState() => _AddProductPageState();
@@ -47,7 +49,9 @@ class _AddProductPageState extends State<AddProductPage> {
 
       if (resp.statusCode == 200) {
         Navigator.push(context, MaterialPageRoute(builder: (builder) {
-          return const ProductListPage();
+          return ProductListPage(
+            user: widget.user,
+          );
         }));
       }
 

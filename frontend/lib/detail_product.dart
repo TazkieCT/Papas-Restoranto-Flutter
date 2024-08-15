@@ -4,8 +4,9 @@ import 'package:frontend/review_tab.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final int id;
+  final String user;
 
-  const ProductDetailPage({Key? key, required this.id}) : super(key: key);
+  const ProductDetailPage({super.key, required this.id, required this.user});
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
@@ -35,7 +36,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
         body: TabBarView(
           children: [
-            ProductTab(id: widget.id),
+            ProductTab(
+              id: widget.id,
+              user: widget.user,
+            ),
             ReviewTab(id: widget.id),
           ],
         ),

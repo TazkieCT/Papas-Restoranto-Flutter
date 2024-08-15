@@ -10,20 +10,22 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      String user = _emailController.text;
+      String user = _userController.text;
 
-      // print('Email: $email, Password: $password');
+      // print('user: $user, Password: $password');
 
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  HomePage(isDarkTheme: false, title: 'Welcome $user')));
+              builder: (context) => HomePage(
+                    isDarkTheme: false,
+                    user: '$user',
+                  )));
     }
   }
 
@@ -52,10 +54,10 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       TextFormField(
-                        controller: _emailController,
+                        controller: _userController,
                         decoration:
                             const InputDecoration(labelText: 'Username'),
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.name,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your username';

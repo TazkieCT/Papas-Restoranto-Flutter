@@ -56,4 +56,23 @@ router.delete('/delete-food', (req, res) => {
     })
 })
 
+router.post('/review-food', (req, res) => {
+    const data = req.body;
+
+    const query = `INSERT INTO review (foodId, name, review) VALUES ('${data.id}', '${data.name}', '${data.review}')`
+    con.query(query, (err, results) => {
+        if(err) throw err;
+        res.send(results);
+    })
+})
+
+router.get('/get-review', (req, res) => {
+    const id = req.query.id;
+    const query = `SELECT * FROM review WHERE foodId = ${id}`
+    con.query(query, (err, results) => {
+        if(err) throw err;
+        res.send(results);
+    })
+})
+
 module.exports = router;

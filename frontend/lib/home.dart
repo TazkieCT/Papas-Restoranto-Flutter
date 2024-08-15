@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:frontend/login.dart';
 import 'package:frontend/products.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
-  HomePage({super.key, required this.isDarkTheme, required this.title});
+  HomePage({super.key, required this.isDarkTheme, required this.user});
 
-  final String title;
+  final String user;
 
   bool isDarkTheme;
 
@@ -26,7 +27,10 @@ class _HomePageState extends State<HomePage> {
   void _product() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ProductListPage()),
+      MaterialPageRoute(
+          builder: (context) => ProductListPage(
+                user: widget.user,
+              )),
     );
   }
 
@@ -38,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       home: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.red[600],
-            title: Text(widget.title),
+            title: Text("Welcome ${widget.user}"),
             actions: [
               TextButton(
                   onPressed: _product,

@@ -9,12 +9,13 @@ class Product {
   final String description;
   final String image;
 
-  Product(
-      {required this.id,
-      required this.name,
-      required this.price,
-      required this.description,
-      required this.image});
+  Product({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.description,
+    required this.image,
+  });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -29,8 +30,9 @@ class Product {
 
 class ProductTab extends StatefulWidget {
   final int id;
+  final String user;
 
-  const ProductTab({Key? key, required this.id}) : super(key: key);
+  const ProductTab({super.key, required this.id, required this.user});
 
   @override
   State<ProductTab> createState() => _ProductTabState();
@@ -38,58 +40,55 @@ class ProductTab extends StatefulWidget {
 
 class _ProductTabState extends State<ProductTab> {
   late Future<Product> product;
+  final TextEditingController _reviewController = TextEditingController();
 
-  // Future<Product> fetchProduct() async {
-  //   String url = "http://127.0.0.1:3000/product/get?id=${widget.id}";
+  Future<Product> fetchProduct() async {
+    String url = "http://127.0.0.1:3000/product/get?id=${widget.id}";
 
-  //   try {
-  //     var response = await http.get(Uri.parse(url));
-  //     print(response.body);
-  //     if (response.statusCode == 200) {
-  //       var result = jsonDecode(response.body);
-  //       print(
-  //           "bawahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-  //       print(result);
-  //       return Product.fromJson(result);
-  //     } else {
-  //       throw Exception('Failed to load product');
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Failed to load product: $e');
-  //   }
-  // }
-Future<Product> fetchProduct() async {
-  String url = "http://127.0.0.1:3000/product/get?id=${widget.id}";
+    try {
+      var response = await http.get(Uri.parse(url));
 
-  try {
-    var response = await http.get(Uri.parse(url));
-    
-    if (response.statusCode == 200) {
-      var result = jsonDecode(response.body) as List<dynamic>;
-      // Find the product with the matching ID
-      var productJson = result.firstWhere(
-        (p) => (p['id'] as int) == widget.id,
-        orElse: () => {} // Provide a default empty map if not found
-      );
-      
-      // Check if productJson is not empty
-      if (productJson.isNotEmpty) {
-        return Product.fromJson(productJson as Map<String, dynamic>);
+      if (response.statusCode == 200) {
+        var result = jsonDecode(response.body) as List<dynamic>;
+        var productJson = result.firstWhere(
+          (p) => (p['id'] as int) == widget.id,
+          orElse: () => {},
+        );
+
+        if (productJson.isNotEmpty) {
+          return Product.fromJson(productJson as Map<String, dynamic>);
+        } else {
+          throw Exception('Product not found');
+        }
       } else {
-        throw Exception('Product not found');
+        throw Exception('Failed to load product');
       }
-    } else {
-      throw Exception('Failed to load product');
+    } catch (e) {
+      throw Exception('Failed to load product: $e');
     }
-  } catch (e) {
-    throw Exception('Failed to load product: $e');
   }
-}
 
   @override
   void initState() {
     super.initState();
     product = fetchProduct();
+  }
+
+  void _submitReview() async {
+    String review = _reviewController.text;
+    // print('Submitted review: $review');
+    String url = "http://127.0.0.1:3000/product/review-food";
+    String json = jsonEncode({
+      "id": widget.id,
+      "review": review,
+      "name": widget.user,
+    });
+
+    // final resp =
+    await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'}, body: json);
+
+    _reviewController.clear();
   }
 
   @override
@@ -108,9 +107,32 @@ Future<Product> fetchProduct() async {
           return Column(
             children: [
               Image.network(product.image),
-              Text(product.name, style: Theme.of(context).textTheme.headline6),
+              Text(product.name, style: Theme.of(context).textTheme.titleLarge),
               Text('\$${product.price}',
-                  style: Theme.of(context).textTheme.subtitle1),
+                  style: Theme.of(context).textTheme.titleMedium),
+              Text(product.description,
+                  style: Theme.of(context).textTheme.titleSmall),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _reviewController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Enter your review',
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: _submitReview,
+                      child: Text('Submit'),
+                    ),
+                  ],
+                ),
+              ),
             ],
           );
         }
