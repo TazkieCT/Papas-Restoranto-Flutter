@@ -76,7 +76,18 @@ class _ProductTabState extends State<ProductTab> {
 
   void _submitReview() async {
     String review = _reviewController.text;
-    // print('Submitted review: $review');
+
+    // Validate review length
+    if (review.length < 5) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Review must be at least 5 characters long.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     String url = "http://127.0.0.1:3000/product/review-food";
     String json = jsonEncode({
       "id": widget.id,
@@ -84,11 +95,20 @@ class _ProductTabState extends State<ProductTab> {
       "name": widget.user,
     });
 
-    // final resp =
-    await http.post(Uri.parse(url),
-        headers: {'Content-Type': 'application/json'}, body: json);
+    // Send the review to the server
+    await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: json,
+    );
 
     _reviewController.clear();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Review submitted successfully!'),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 
   @override
